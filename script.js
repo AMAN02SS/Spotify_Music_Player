@@ -44,25 +44,6 @@ async function getSongs(folder) {
         });
     });
 
-    //Add event listener for next and previous
-    document.getElementById("next").addEventListener("click", () => {
-        if (!songs || !songs.length) return;
-        let index = songs.indexOf(decodeURIComponent(currentSong.src.split("/").pop()));
-        console.log(index);
-        if ((index + 1) < songs.length) {
-            playMusic(songs[index + 1])
-        }
-
-    })
-
-    document.getElementById("previous").addEventListener("click", () => {
-        if (!songs || !songs.length) return;
-        let index = songs.indexOf(decodeURIComponent(currentSong.src.split("/").pop()));
-        if ((index - 1) >= 0) {
-            playMusic(songs[index - 1])
-        }
-    })
-
     // Auto play next when current song ends
     currentSong.addEventListener("ended", () => {
         if (isReplay) {
@@ -232,6 +213,25 @@ async function main() {
         isReplay = !isReplay;
         document.querySelector(".replay").classList.toggle("active", isReplay);
     });
+
+    //Add event listener for next and previous
+    document.getElementById("next").addEventListener("click", () => {
+        if (!songs || !songs.length) return;
+        let index = songs.indexOf(decodeURIComponent(currentSong.src.split("/").pop()));
+        console.log(index);
+        if ((index + 1) < songs.length) {
+            playMusic(songs[index + 1])
+        }
+
+    })
+
+    document.getElementById("previous").addEventListener("click", () => {
+        if (!songs || !songs.length) return;
+        let index = songs.indexOf(decodeURIComponent(currentSong.src.split("/").pop()));
+        if ((index - 1) >= 0) {
+            playMusic(songs[index - 1])
+        }
+    })
 
 }
 
