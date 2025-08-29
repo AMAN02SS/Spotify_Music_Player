@@ -16,7 +16,7 @@ function secondsToMinutesSeconds(seconds) {
 
 async function getSongs(folder) {
     currfolder = folder;
-    let res = await fetch(`/Asset/${folder}/info.json`);
+    let res = await fetch(`./Asset/${folder}/info.json`);
 
     if (!res.ok) {
         console.error("Playlist not found for", folder);
