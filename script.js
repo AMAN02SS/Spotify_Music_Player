@@ -93,7 +93,7 @@ async function getSongs(folder) {
 
 const playMusic = (track, paused = false) => {
     // let audio = new Audio("/Asset/songs/"+track);
-    currentSong.src = (`/Asset/${currfolder}/` + track);
+    currentSong.src = (`./Asset/${currfolder}/` + track);
     currentSong.load();
     currentSong.onloadedmetadata = () => {
         document.querySelector(".songtime").innerHTML =
@@ -117,7 +117,7 @@ async function displayAlbums() {
     authorcards.innerHTML = "";
 
     for (const folder of albums) {
-        let res = await fetch(`/Asset/songs/${folder}/info.json`);
+        let res = await fetch(`./Asset/songs/${folder}/info.json`);
         if (!res.ok) continue;
         let data = await res.json();
         authorcards.innerHTML = authorcards.innerHTML + ` <div data-folder="${folder}" class="authorcard">
