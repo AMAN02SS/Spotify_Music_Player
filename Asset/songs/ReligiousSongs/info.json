@@ -1,0 +1,11 @@
+{
+    "title":"Religious Songs",
+    "description":"Religious song for positive mind.",
+    "cover": "cover.jpg",
+    "songs": [
+        "Shiv Panchakshar Stotram.mp3",
+        "Rudrashtakam (Sanskrit) - Anil Pathak.mp3",
+        "Shiv Swarnamala Stuti.mp3",
+        "Shiv Taandav Stotra.mp3"
+    ]
+}

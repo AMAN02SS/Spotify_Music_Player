@@ -1,0 +1,15 @@
+{
+    "title": "Trending Songs",
+    "description": "Trending song for chill and party mood.",
+    "cover": "cover.jpg",
+    "songs": [
+        "Alan Walker - Faded.mp3",
+        "Coldplay - Hymn For The Weekend.mp3",
+        "Ed Sheeran - Shape of You.mp3",
+        "Imran Khan - Satisfya.mp3",
+        "Justin Bieber - Baby.mp3",
+        "Lady Gaga, Bruno Mars - Die With A Smile.mp3",
+        "Playdate.mp3",
+        "Matteo - Panama.mp3"
+    ]
+}
