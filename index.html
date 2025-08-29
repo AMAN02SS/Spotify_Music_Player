@@ -94,38 +94,54 @@
 
         </div>
     </div>
+    <div class="lyrics">
+        <div class="head">Lyrics</div>
+        <div class="lyricsBox">
+        </div>
+    </div>
     <div class="player">
-            <div class="heading">
-                <h2>Music Player</h2>
-                <div class="seekbar-circle">
-                    <div class="seekbar">
-                        <div class="circle"></div>
-                    </div>
-                </div>
-
-                <div class="music-player">
-
-                    <div class="songinfo">
-                    </div>
-                    <div class="songbuttons">
-                        <img id="previous" src="./Asset/backward.svg" alt="">
-                        <img id="play" src="./Asset/play.svg" alt="">
-                        <img id="next" src="./Asset/forward.svg" alt="">
-                    </div>
-                    <div class="songtime"></div>
-                </div>
-                <div class="audio-control">
-                    <div class="audio-control"><div class="volume">
-                        <img src="./Asset/audio.svg" alt="Mute/Unmute" title="Mute/Unmute">
-                    </div>
-                    <div class="range"><input type="range" name="volume" id=""></div></div>
-                    
-                    <div class="replay volume">
-                        <img src="./Asset/replay.svg" alt="" title="Re">
-                    </div>
+        <div class="heading">
+            <h2>Music Player</h2>
+            <div class="seekbar-circle">
+                <div class="seekbar">
+                    <div class="circle"></div>
                 </div>
             </div>
+
+            <div class="music-player">
+
+                <div class="songinfo">
+                </div>
+                <div class="songbuttons">
+                    <img id="previous" src="./Asset/backward.svg" alt="">
+                    <img id="play" src="./Asset/play.svg" alt="">
+                    <img id="next" src="./Asset/forward.svg" alt="">
+                </div>
+                <div class="songtime"></div>
+            </div>
+            <div class="audio-control">
+                <div class="audio-control">
+                    <div class="volumeBox">
+                        <div class="volume">
+                        <img src="./Asset/audio.svg" alt="Mute/Unmute" title="Mute/Unmute">
+                    </div>
+                    <div class="range"><input type="range" name="volume" id=""></div>
+                    </div>
+                    
+                </div>
+
+                <div class="replay volume">
+                    <img src="./Asset/replay.svg" alt="" title="Replay">
+                </div>
+                <div class="lyrics-menu volume" id="lyricsBtn">
+                    <img class="lyrics-open" src="./Asset/lyrics.svg" alt="Lyrics" title="Lyrics">
+                    <img class="lyrics-close" src="./Asset/noLyrics.svg" alt="NOLyrics" title="No Lyrics">
+                </div>
+            </div>
+
+
         </div>
+    </div>
     <script src="./script.js"></script>
 </body>
 

@@ -3,6 +3,8 @@ let currentSong = new Audio()
 let songs = [];
 let currfolder;
 let isReplay = false;
+let lyrics = [];
+let currentLine = -1;
 function secondsToMinutesSeconds(seconds) {
     if (isNaN(seconds) || seconds < 0) {
         return "Invalid input";
@@ -44,24 +46,7 @@ async function getSongs(folder) {
         });
     });
 
-    //Add event listener for next and previous
-    document.getElementById("next").addEventListener("click", () => {
-        if (!songs || !songs.length) return;
-        let index = songs.indexOf(decodeURIComponent(currentSong.src.split("/").pop()));
-        console.log(index);
-        if ((index + 1) < songs.length) {
-            playMusic(songs[index + 1])
-        }
 
-    })
-
-    document.getElementById("previous").addEventListener("click", () => {
-        if (!songs || !songs.length) return;
-        let index = songs.indexOf(decodeURIComponent(currentSong.src.split("/").pop()));
-        if ((index - 1) >= 0) {
-            playMusic(songs[index - 1])
-        }
-    })
 
     // Auto play next when current song ends
     currentSong.addEventListener("ended", () => {
@@ -87,14 +72,32 @@ async function getSongs(folder) {
 
     });
 
+
+
     return songs;
 
 }
 
-const playMusic = (track, paused = false) => {
+const playMusic = async (track, paused = false) => {
     // let audio = new Audio("/Asset/songs/"+track);
     currentSong.src = (`/Asset/${currfolder}/` + track);
     currentSong.load();
+
+    lyrics = [];
+    currentLine = -1;
+    document.querySelector(".lyricsBox").innerHTML = "l<p>Loading lyrics...</p>";
+
+    let lrcPath = `/Asset/songLRC/${track.replace(".mp3", ".lrc")}`;
+    lyrics = await lyricsLoad(lrcPath);
+
+    // Render lyrics in box
+    let lyricsBox = document.querySelector(".lyricsBox");
+    if (lyrics.length > 0) {
+        lyricsBox.innerHTML = lyrics.map(l => `<p>${l.text}</p>`).join("");
+    } else {
+        lyricsBox.innerHTML = "<p>No lyrics available</p>";
+    }
+
     currentSong.onloadedmetadata = () => {
         document.querySelector(".songtime").innerHTML =
             `00:00 / ${secondsToMinutesSeconds(currentSong.duration)}`;
@@ -109,6 +112,7 @@ const playMusic = (track, paused = false) => {
     document.querySelector(".songinfo").innerHTML = decodeURI(track);
     document.querySelector(".songtime").innerHTML = "00:00 / 00:00";
 }
+
 
 async function displayAlbums() {
 
@@ -133,7 +137,7 @@ async function displayAlbums() {
     Array.from(document.getElementsByClassName("authorcard")).forEach(e => {
         e.addEventListener("click", async item => {
             await getSongs(`songs/${item.currentTarget.dataset.folder}`);
-            if (songs.length > 0) playMusic(songs[0], true)
+            // if (songs.length > 0) playMusic(songs[0], true)
 
         });
     });
@@ -144,6 +148,7 @@ async function main() {
     await getSongs("songs/TrendingSongs");
     if (songs.length > 0) {
         playMusic(songs[0], true);
+
     }
 
     //display all the albums on the page
@@ -168,7 +173,26 @@ async function main() {
         // console.log(currentSong.currentTime, currentSong.duration);
         document.querySelector(".songtime").innerHTML = `${secondsToMinutesSeconds(currentSong.currentTime)} / ${secondsToMinutesSeconds(currentSong.duration)}`;
         document.querySelector(".circle").style.left = (currentSong.currentTime / currentSong.duration) * 100 + "%";
-    })
+
+        if (lyrics.length > 0) {
+            for (let i = 0; i < lyrics.length; i++) {
+                if (currentSong.currentTime >= lyrics[i].time &&
+                    (i === lyrics.length - 1 || currentSong.currentTime < lyrics[i + 1].time)) {
+                    if (currentLine !== i) {
+                        currentLine = i;
+                        let lines = document.querySelectorAll(".lyricsBox p");
+                        lines.forEach(line => line.classList.remove("active"));
+                        lines[i].classList.add("active");
+                        let lyricsBox = document.querySelector(".lyricsBox");
+                        lyricsBox.scrollTo({
+                            top: lines[i].offsetTop - lyricsBox.clientHeight / 2,
+                            behavior: "smooth"
+                        });
+                    }
+                }
+            }
+        }
+    });
 
     //Add event listener on seek bar
     document.querySelector(".seekbar").addEventListener("click", e => {
@@ -188,6 +212,26 @@ async function main() {
     document.querySelector(".hamburger-close").addEventListener("click", () => {
         document.querySelector(".left").style.left = "-120%";
     })
+
+
+    
+    // Add event for close and open of lyrics
+
+    const lyricsBtn = document.getElementById("lyricsBtn");
+    lyricsBtn.addEventListener("click", () => {
+        lyricsBtn.classList.toggle("active");
+    });
+
+     //Add event listener for close lyrics
+
+    document.querySelector(".lyrics-open").addEventListener("click", () => {
+        document.querySelector(".lyrics").style.display = "flex";
+    })
+
+     document.querySelector(".lyrics-close").addEventListener("click", () => {
+        document.querySelector(".lyrics").style.display = "none";
+    })
+    
 
 
     // Add event for close and open of menu/
@@ -233,7 +277,55 @@ async function main() {
         document.querySelector(".replay").classList.toggle("active", isReplay);
     });
 
+    //Add event listener for next and previous
+    document.getElementById("next").addEventListener("click", () => {
+        if (!songs || !songs.length) return;
+        console.log(currentSong.src);
+        let index = songs.indexOf(decodeURIComponent(currentSong.src.split("/").pop()));
+        console.log(index);
+        if ((index + 1) < songs.length) {
+            playMusic(songs[index + 1])
+        }
+    })
+
+    document.getElementById("previous").addEventListener("click", () => {
+        if (!songs || !songs.length) return;
+        let index = songs.indexOf(decodeURIComponent(currentSong.src.split("/").pop()));
+        if ((index - 1) >= 0) {
+            playMusic(songs[index - 1])
+        }
+    })
+
 }
+
+
+//load lyrics
+async function lyricsLoad(filepath) {
+    try {
+
+        let resp = await fetch(filepath);
+        let text = await resp.text();
+        let lines = text.split("\n");
+
+        return lines.map(line => {
+            let match = line.match(/\[(\d+):(\d+\.\d+)\](.*)/);
+            if (match) {
+                let minutes = parseInt(match[1]);
+                let second = parseFloat(match[2]);
+                let time = minutes * 60 + second;
+
+                return { time, text: match[3].trim() };
+            }
+        }).filter(l => l);
+    } catch (err) {
+        console.warn("Lyrics missing:", filepath);
+        return [];
+    }
+}
+
+// lyricsLoad("./Asset/songLRC/rudrastakam.lrc").then(lyrics => {
+//     console.log(lyrics);
+// });
 
 
 

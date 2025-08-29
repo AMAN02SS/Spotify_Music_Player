@@ -551,8 +551,16 @@ body {
 .audio-control {
     display: flex;
     align-items: center;
-    justify-content:space-evenly;
-    gap: 10px;
+    justify-content:flex-start;
+    gap: 30px;
+}
+
+
+.volumeBox{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap:10px
 }
 
 .volume {
@@ -579,6 +587,28 @@ body {
     cursor: pointer;
 }
 .replay.active {
+  background: rgb(10, 139, 55);
+  box-sizing: border-box;
+  border:2px solid rgb(0, 0, 0);
+}
+
+.lyrics-close {
+    display: none;
+}
+
+.lyrics-menu.active .lyrics-open {
+    display: none;
+}
+
+.lyrics-menu.active .lyrics-close {
+    display: block;
+}
+
+.lyrics-menu{
+    cursor: pointer;
+}
+
+.lyrics-menu.active {
   background: rgb(10, 139, 55);
   box-sizing: border-box;
   border:2px solid rgb(0, 0, 0);
@@ -755,3 +785,47 @@ body {
     }
 
 }
+
+/* \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\ */
+
+.lyrics{
+    position: absolute;
+    color: white;
+    background-color: rgba(18, 18, 18, 1);
+    width: 30vw;
+    height: 60vh;
+    z-index: 2;
+    right:7px;
+    top:60px;
+    padding:10px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.head{
+    font-size: 25px;
+    text-align: center;
+    padding: 10px;
+    font-weight: 700;
+}
+
+.lyricsBox{
+    font-size: 20px;
+    padding: 0px 5px;
+    text-align: center;
+    overflow-y: auto;
+    max-height: 60vh;
+}
+
+.lyricsBox p {
+  margin: 5px 0;
+  color: #666;
+}
+
+.lyricsBox p.active {
+  color: #ff3b3b;
+  font-weight: bold;
+  font-size: 24px;
+}
+
