@@ -137,7 +137,7 @@ async function displayAlbums() {
     Array.from(document.getElementsByClassName("authorcard")).forEach(e => {
         e.addEventListener("click", async item => {
             // await getSongs(`songs/${item.currentTarget.dataset.folder}`);
-             await getSongs(`${item.currentTarget.dataset.folder}`);
+             await getSongs(`songs/${item.currentTarget.dataset.folder}`);
             // if (songs.length > 0) playMusic(songs[0], true)
 
         });
@@ -146,7 +146,7 @@ async function displayAlbums() {
 
 async function main() {
 
-    await getSongs("TrendingSongs");
+    await getSongs("songs/TrendingSongs");
     if (songs.length > 0) {
         playMusic(songs[0], true);
 
