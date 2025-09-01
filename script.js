@@ -18,7 +18,7 @@ function secondsToMinutesSeconds(seconds) {
 
 async function getSongs(folder) {
     currfolder = folder;
-    let res = await fetch(`/Asset/${folder}/info.json`);
+    let res = await fetch(`./Asset/${folder}/info.json`);
 
     if (!res.ok) {
         console.error("Playlist not found for", folder);
@@ -80,14 +80,14 @@ async function getSongs(folder) {
 
 const playMusic = async (track, paused = false) => {
     // let audio = new Audio("/Asset/songs/"+track);
-    currentSong.src = (`/Asset/${currfolder}/` + track);
+    currentSong.src = (`./Asset/${currfolder}/` + track);
     currentSong.load();
 
     lyrics = [];
     currentLine = -1;
     document.querySelector(".lyricsBox").innerHTML = "l<p>Loading lyrics...</p>";
 
-    let lrcPath = `/Asset/songLRC/${track.replace(".mp3", ".lrc")}`;
+    let lrcPath = `./Asset/songLRC/${track.replace(".mp3", ".lrc")}`;
     lyrics = await lyricsLoad(lrcPath);
 
     // Render lyrics in box
@@ -121,7 +121,7 @@ async function displayAlbums() {
     authorcards.innerHTML = "";
 
     for (const folder of albums) {
-        let res = await fetch(`/Asset/songs/${folder}/info.json`);
+        let res = await fetch(`./Asset/songs/${folder}/info.json`);
         if (!res.ok) continue;
         let data = await res.json();
         authorcards.innerHTML = authorcards.innerHTML + ` <div data-folder="${folder}" class="authorcard">
