@@ -146,7 +146,7 @@ async function displayAlbums() {
 
 async function main() {
 
-    await getSongs("songs/TrendingSongs");
+    await getSongs("TrendingSongs");
     if (songs.length > 0) {
         playMusic(songs[0], true);
 
