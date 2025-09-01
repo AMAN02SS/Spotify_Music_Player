@@ -136,7 +136,8 @@ async function displayAlbums() {
     //load the playlist when card is clicked
     Array.from(document.getElementsByClassName("authorcard")).forEach(e => {
         e.addEventListener("click", async item => {
-            await getSongs(`songs/${item.currentTarget.dataset.folder}`);
+            // await getSongs(`songs/${item.currentTarget.dataset.folder}`);
+             await getSongs(`${item.currentTarget.dataset.folder}`);
             // if (songs.length > 0) playMusic(songs[0], true)
 
         });
