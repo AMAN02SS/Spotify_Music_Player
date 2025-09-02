@@ -628,7 +628,7 @@ body {
     top: 60px;
     padding: 10px;
     border-radius: 5px;
-    display: flex;
+    display: none;
     flex-direction: column;
 }
 
