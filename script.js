@@ -48,29 +48,7 @@ async function getSongs(folder) {
 
 
 
-    // Auto play next when current song ends
-    currentSong.addEventListener("ended", () => {
-        if (isReplay) {
-            currentSong.currentTime = 0;
-            currentSong.play();
-            play.src = "./Asset/paused.svg"; // reset play button
-        } else {
-            if (!songs || !songs.length) return;
-
-            let index = songs.indexOf(decodeURIComponent(currentSong.src.split("/").pop()));
-
-            if ((index + 1) < songs.length) {
-                // Play next song
-                playMusic(songs[index + 1]);
-            } else {
-                // End of playlist -> stop
-                // console.log("Playlist finished.");
-                play.src = "./Asset/play.svg"; // reset play button
-            }
-        }
-
-
-    });
+    
 
 
 
@@ -145,6 +123,30 @@ async function displayAlbums() {
 }
 
 async function main() {
+
+    // Auto play next when current song ends
+    currentSong.addEventListener("ended", () => {
+        if (isReplay) {
+            currentSong.currentTime = 0;
+            currentSong.play();
+            play.src = "./Asset/paused.svg"; // reset play button
+        } else {
+            if (!songs || !songs.length) return;
+
+            let index = songs.indexOf(decodeURIComponent(currentSong.src.split("/").pop()));
+
+            if ((index + 1) < songs.length) {
+                // Play next song
+                playMusic(songs[index + 1]);
+            } else {
+                // End of playlist -> stop
+                // console.log("Playlist finished.");
+                play.src = "./Asset/play.svg"; // reset play button
+            }
+        }
+
+
+    });
 
     await getSongs("songs/TrendingSongs");
     if (songs.length > 0) {
